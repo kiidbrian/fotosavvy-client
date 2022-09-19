@@ -8,17 +8,17 @@ import {
 } from "./features/auth/authSlice";
 
 export const PrivateRoute = ({ component: RouteComponent, roles }) => {
-  const user = useSelector(selectCurrentUser)
-  const isAuthenticated = useSelector(selectIsAuthenticated)
-  const userHasRequiredRole = user && true
+  const user = useSelector(selectCurrentUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const userHasRequiredRole = user && true;
 
   if (isAuthenticated && userHasRequiredRole) {
-    return <RouteComponent />
+    return <RouteComponent />;
   }
 
   if (isAuthenticated && !userHasRequiredRole) {
-    return <AccessDenied />
+    return <AccessDenied />;
   }
 
-  return <Navigate to="/gallery" />
-}
+  return <Navigate to="/gallery" />;
+};
