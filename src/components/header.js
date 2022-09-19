@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import MainMenu from './mainMenu';
+import React from "react";
+import { Link } from "react-router-dom";
+import MainMenu from "./mainMenu";
 
 function Header() {
   return (

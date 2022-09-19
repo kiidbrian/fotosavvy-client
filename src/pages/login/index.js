@@ -1,6 +1,6 @@
-import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import styled from 'styled-components';
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import styled from "styled-components";
 
 const ImageWrapper = styled.div`
   margin-bottom: 50px;
@@ -10,7 +10,7 @@ const LoginButton = styled.button`
   border: 2px solid #000;
   font-size: 16px;
   font-weight: 700;
-  ${'' /* max-width: 189px; */}
+  ${"" /* max-width: 189px; */}
   padding: 15px 130px;
   letter-spacing: 0.08em;
   border-radius: 0;

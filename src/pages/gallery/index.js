@@ -1,6 +1,6 @@
-import React from 'react';
-import data from './data.json';
-import ImageCard from '../../components/imageCard';
+import React from "react";
+import data from "./data.json";
+import ImageCard from "../../components/imageCard";
 
 function GalleryPage() {
   return (
