@@ -1,8 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { logout as apiLogout } from "../features/auth/authSlice";
+import styled from "styled-components";
 import MainMenu from "./mainMenu";
 
 function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { logout } = useAuth0();
+  const LogoutButton = styled.span`
+    &:hover {
+      cursor: "pointer";
+    }
+  `;
+  const signOut = () => {
+    console.log("signout btn was clicked!");
+    logout(); // auth0 logout
+    dispatch(apiLogout());
+    navigate(`/`, { replace: true });
+  };
+
   return (
     <header className="header">
       <div className="container-fluid">
@@ -33,9 +54,9 @@ function Header() {
               <Link to="/" className="nav-switch">
                 <i className="fa fa-bars"></i>
               </Link>
-              <Link to="/">
-                <i className="fa fa-shopping-cart"></i>
-              </Link>
+              <LogoutButton onClick={() => signOut()}>
+                <FontAwesomeIcon icon={icon({ name: "right-from-bracket" })} />
+              </LogoutButton>
             </div>
           </div>
         </div>

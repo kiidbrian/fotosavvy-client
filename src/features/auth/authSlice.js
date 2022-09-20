@@ -9,19 +9,22 @@ const slice = createSlice({
       state.token = null;
       state.isAuthenticated = false;
     },
+    setCurrentUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       api.endpoints.login.matchFulfilled,
-      (state, { payload: { token } }) => {
-        state.token = token;
+      (state, { payload: { access_token } }) => {
+        state.token = access_token;
         state.isAuthenticated = true;
       }
     );
   },
 });
 
-export const { logout } = slice.actions;
+export const { logout, setCurrentUser } = slice.actions;
 
 export default slice.reducer;
 

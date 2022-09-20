@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<LoginPage />} />
+        <Route path="/" index element={<LoginPage />} />
         <Route path="gallery" element={<Layout />}>
           <Route
             index

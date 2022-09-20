@@ -8,10 +8,10 @@ export const api = createApi({
   // All of our requests will have URLs starting with '/fakeApi'
   baseQuery: fetchBaseQuery({
     baseUrl: "https://stage-fotosavvy.herokuapp.com/",
+    mode: "cors",
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the store, let's use that for authenticated requests
       const token = getState().auth.token;
-      headers.set("Access-Control-Allow-Origin", "*");
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
@@ -24,7 +24,7 @@ export const api = createApi({
     login: builder.mutation({
       // The URL for the request is '/fakeApi/posts'
       query: (credentials) => ({
-        url: "/clients/access-token",
+        url: "/clients/access-token/",
         method: "POST",
         body: credentials,
       }),

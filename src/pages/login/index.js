@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useLoginMutation } from "../../features/api/apiSlice";
+import { setCurrentUser } from "../../features/auth/authSlice";
 
 const ImageWrapper = styled.div`
   margin-bottom: 50px;
@@ -33,7 +37,26 @@ const LoginWrapper = styled.div`
 `;
 
 function LoginPage() {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
+  const [login] = useLoginMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const getToken = async () => {
+    try {
+      await login({ user_id: "google-oauth2|109980565235681739922" });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(setCurrentUser(user));
+      getToken(user?.sub);
+      navigate("/gallery");
+    }
+  }, [isAuthenticated, user]);
 
   return (
     <div className="container-fluid">
