@@ -1,34 +1,27 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
 import GalleryPage from "./pages/gallery";
 import ContactPage from "./pages/contact";
 import Layout from "./components/layout";
-import { PrivateRoute } from "./privateRoute";
+import PrivateRoute from "./privateRoute";
+import Callback from "./components/callback";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" index element={<LoginPage />} />
-        <Route path="gallery" element={<Layout />}>
-          <Route
-            index
-            element={<PrivateRoute roles={[]} component={GalleryPage} />}
-          />
-          <Route
-            path="home"
-            element={<PrivateRoute roles={[]} component={HomePage} />}
-          />
-          <Route
-            path="contact"
-            element={<PrivateRoute roles={[]} component={ContactPage} />}
-          />
-        </Route>
-        <Route path="*" element={() => <h1>Route Not Found</h1>} />
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <Switch>
+        <Route path="/login" exact children={<LoginPage />} />
+        <Route path="/callback" exact children={<Callback />} />
+        <Layout>
+          <PrivateRoute children={<GalleryPage />} path="/" exact />
+          <PrivateRoute children={<HomePage />} path="/home" exact />
+          <PrivateRoute children={<ContactPage />} path="/contact" exact />
+        </Layout>
+        {/* <Route path="*" children={() => <h1>Route Not Found</h1>} /> */}
+      </Switch>
+    </Router>
   );
 }
 

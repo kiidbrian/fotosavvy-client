@@ -6,13 +6,13 @@ function MainMenu() {
     <nav className="main__menu">
       <ul className="nav__menu">
         <li>
-          <Link to="home">Home</Link>
+          <Link to="/home">Home</Link>
         </li>
         {/* <li>
           <Link to="about.html">About</Link>
         </li> */}
         <li>
-          <Link to="/gallery" className="menu--active">
+          <Link to="/" className="menu--active">
             Gallery
           </Link>
         </li>
@@ -25,7 +25,7 @@ function MainMenu() {
           </ul>
         </li> */}
         <li>
-          <Link to="contact">Contact</Link>
+          <Link to="/contact">Contact</Link>
         </li>
       </ul>
     </nav>

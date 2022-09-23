@@ -29,8 +29,15 @@ export const api = createApi({
         body: credentials,
       }),
     }),
+    getGalleries: builder.query({
+      query: () => "/galleries/",
+    }),
+    getPhotos: builder.query({
+      query: () => "/photos/",
+    }),
   }),
 });
 
 // Export the auto-generated hook for the `getPosts` query endpoint
-export const { useLoginMutation } = api;
+export const { useLoginMutation, useGetGalleriesQuery, useGetPhotosQuery } =
+  api;
