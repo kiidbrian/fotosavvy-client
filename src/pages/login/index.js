@@ -50,12 +50,11 @@ function LoginPage() {
   //   }
   // };
 
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     // dispatch(setCurrentUser(user));
-  //     getToken(user?.sub);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="container-fluid">
