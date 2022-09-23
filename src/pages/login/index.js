@@ -3,8 +3,6 @@ import React, { useCallback, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { useLoginMutation } from "../../features/api/apiSlice";
-// import { setCurrentUser } from "../../features/auth/authSlice";
 
 const ImageWrapper = styled.div`
   margin-bottom: 50px;
@@ -37,18 +35,8 @@ const LoginWrapper = styled.div`
 `;
 
 function LoginPage() {
-  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
-  // const [login] = useLoginMutation();
-  // const dispatch = useDispatch();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   const history = useHistory();
-
-  // const getToken = async (user_id) => {
-  //   try {
-  //     await login({ user_id });
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // };
 
   useEffect(() => {
     if (isAuthenticated) {

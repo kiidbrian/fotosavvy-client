@@ -1,40 +1,33 @@
 import React, { useEffect, useCallback, useState } from "react";
+import { useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 // import Gallery from "react-photo-gallery";
 // import Carousel, { Modal, ModalGateway } from "react-images";
 import data from "./data.json";
 import ImageCard from "../../components/imageCard";
-// import { useGetPhotosQuery } from "../../features/api/apiSlice";
-import { useLoginMutation } from "../../features/api/apiSlice";
+import {
+  useLoginMutation,
+  useGetGalleriesQuery,
+} from "../../features/api/apiSlice";
 import ImageViewer from "react-simple-image-viewer";
+import { selectToken } from "../../features/auth/authSlice";
 
 function GalleryPage() {
-  // const [getPhotos] = useGetPhotosQuery();
   const { user } = useAuth0();
-  const [login] = useLoginMutation();
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const token = useSelector(selectToken);
+  const {
+    data: galleries,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetGalleriesQuery();
 
-  // const getAllPhotos = async () => {
-  //   try {
-  //     await getPhotos();
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // };
+  let content;
 
-  const getToken = async (user_id) => {
-    try {
-      await login({ user_id });
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
-
-  useEffect(() => {
-    // getAllPhotos();
-    getToken(user?.sub);
-  }, []);
+  console.log("galleries => ", galleries);
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -48,8 +41,17 @@ function GalleryPage() {
 
   const imageLinks = () => data.map((d) => d.imgUrl);
 
+  // if (isLoading) {
+  //   content = <p>Loading data...</p>;
+  // } else if (isSuccess) {
+  //   content = galleries.map((gallery) => <p>{gallery.name}</p>);
+  // } else if (isError) {
+  //   content = <div>{error.toString()}</div>;
+  // }
+
   return (
     <>
+      {content}
       <div className="gallery__page">
         <div className="gallery__warp">
           <div className="row">

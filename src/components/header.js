@@ -15,6 +15,7 @@ function Header() {
   const signOut = () => {
     logout(); // auth0 logout
     dispatch(apiLogout());
+    localStorage.clear();
     history.push(`/login`);
   };
 
