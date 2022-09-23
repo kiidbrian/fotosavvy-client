@@ -1,18 +1,19 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 // import Gallery from "react-photo-gallery";
-import Carousel, { Modal, ModalGateway } from "react-images";
+// import Carousel, { Modal, ModalGateway } from "react-images";
 import data from "./data.json";
 import ImageCard from "../../components/imageCard";
-import { useGetPhotosQuery } from "../../features/api/apiSlice";
+// import { useGetPhotosQuery } from "../../features/api/apiSlice";
 import { useLoginMutation } from "../../features/api/apiSlice";
+import ImageViewer from "react-simple-image-viewer";
 
 function GalleryPage() {
   // const [getPhotos] = useGetPhotosQuery();
   const { user } = useAuth0();
   const [login] = useLoginMutation();
   const [currentImage, setCurrentImage] = useState(0);
-  const [viewerIsOpen, setViewerIsOpen] = useState(false);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
 
   // const getAllPhotos = async () => {
   //   try {
@@ -35,15 +36,17 @@ function GalleryPage() {
     getToken(user?.sub);
   }, []);
 
-  const openLightbox = useCallback((event, { photo, index }) => {
+  const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
-    setViewerIsOpen(true);
+    setIsViewerOpen(true);
   }, []);
 
-  const closeLightbox = () => {
+  const closeImageViewer = () => {
     setCurrentImage(0);
-    setViewerIsOpen(false);
+    setIsViewerOpen(false);
   };
+
+  const imageLinks = () => data.map((d) => d.imgUrl);
 
   return (
     <>
@@ -55,27 +58,25 @@ function GalleryPage() {
                 key={d.id}
                 imgUrl={d.imgUrl}
                 idx={idx}
-                openImageViewer={openLightbox}
+                openImageViewer={openImageViewer}
                 width="300"
               />
             ))}
           </div>
         </div>
       </div>
-      <ModalGateway>
-        {viewerIsOpen ? (
-          <Modal onClose={closeLightbox}>
-            <Carousel
-              currentIndex={currentImage}
-              views={data.map((x) => ({
-                ...x,
-                srcset: x.imgUrl,
-                caption: x.imgAlt,
-              }))}
-            />
-          </Modal>
-        ) : null}
-      </ModalGateway>
+      {isViewerOpen && (
+        <ImageViewer
+          src={imageLinks}
+          currentIndex={currentImage}
+          onClose={closeImageViewer}
+          disableScroll={false}
+          backgroundStyle={{
+            backgroundColor: "rgba(0,0,0,0.9)",
+          }}
+          closeOnClickOutside={true}
+        />
+      )}
     </>
   );
 }

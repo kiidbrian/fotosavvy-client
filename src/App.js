@@ -18,6 +18,7 @@ function App() {
           <PrivateRoute children={<GalleryPage />} path="/" exact />
           <PrivateRoute children={<HomePage />} path="/home" exact />
           <PrivateRoute children={<ContactPage />} path="/contact" exact />
+          <PrivateRoute children={<GalleryPage />} path="/img/gallery/*" />
         </Layout>
         {/* <Route path="*" children={() => <h1>Route Not Found</h1>} /> */}
       </Switch>
