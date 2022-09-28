@@ -19,6 +19,7 @@ const slice = createSlice({
       (state, { payload: { access_token } }) => {
         state.token = access_token;
         state.isAuthenticated = true;
+        localStorage.setItem("token", JSON.stringify(access_token));
       }
     );
   },
@@ -29,5 +30,6 @@ export const { logout, setCurrentUser } = slice.actions;
 export default slice.reducer;
 
 export const selectCurrentUser = (state) => state.auth.user;
-export const selectToken = (state) => state.auth.token;
+export const selectToken = (state) =>
+  state.auth.token || JSON.parse(localStorage.getItem("token"));
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;

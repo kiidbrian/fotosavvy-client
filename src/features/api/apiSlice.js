@@ -11,7 +11,8 @@ export const api = createApi({
     mode: "cors",
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the store, let's use that for authenticated requests
-      const token = getState().auth.token || localStorage.getItem("token");
+      const token =
+        getState().auth.token || JSON.parse(localStorage.getItem("token"));
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
@@ -33,7 +34,7 @@ export const api = createApi({
       query: () => "/galleries/",
     }),
     getPhotos: builder.query({
-      query: () => "/photos/",
+      query: () => "/clients/photos/",
     }),
   }),
 });

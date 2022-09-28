@@ -7,6 +7,7 @@ import ContactPage from "./pages/contact";
 import Layout from "./components/layout";
 import PrivateRoute from "./privateRoute";
 import Callback from "./components/callback";
+import PhotosPage from "./pages/photo";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <PrivateRoute children={<GalleryPage />} path="/" exact />
           <PrivateRoute children={<HomePage />} path="/home" exact />
           <PrivateRoute children={<ContactPage />} path="/contact" exact />
+          <PrivateRoute children={<PhotosPage />} path="/gallery/:id/photos" />
           <PrivateRoute children={<GalleryPage />} path="/img/gallery/*" />
         </Layout>
         {/* <Route path="*" children={() => <h1>Route Not Found</h1>} /> */}

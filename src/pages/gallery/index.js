@@ -1,45 +1,26 @@
 import React, { useEffect, useCallback, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 // import Gallery from "react-photo-gallery";
 // import Carousel, { Modal, ModalGateway } from "react-images";
-import data from "./data.json";
-import ImageCard from "../../components/imageCard";
-import {
-  useLoginMutation,
-  useGetGalleriesQuery,
-} from "../../features/api/apiSlice";
-import ImageViewer from "react-simple-image-viewer";
+import { useGetGalleriesQuery } from "../../features/api/apiSlice";
 import { selectToken } from "../../features/auth/authSlice";
+import "./index.css";
 
 function GalleryPage() {
-  const { user } = useAuth0();
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [skip, setSkip] = useState(true);
   const token = useSelector(selectToken);
+  const history = useHistory();
   const {
     data: galleries,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetGalleriesQuery();
+  } = useGetGalleriesQuery("", { skip });
 
   let content;
-
-  console.log("galleries => ", galleries);
-
-  const openImageViewer = useCallback((index) => {
-    setCurrentImage(index);
-    setIsViewerOpen(true);
-  }, []);
-
-  const closeImageViewer = () => {
-    setCurrentImage(0);
-    setIsViewerOpen(false);
-  };
-
-  const imageLinks = () => data.map((d) => d.imgUrl);
 
   // if (isLoading) {
   //   content = <p>Loading data...</p>;
@@ -49,37 +30,32 @@ function GalleryPage() {
   //   content = <div>{error.toString()}</div>;
   // }
 
+  const navigate = (path) => {
+    history.push(path);
+  };
+
+  useEffect(() => {
+    // skip request until token is available
+    if (token) {
+      setSkip(false);
+    }
+  }, [token]);
+
   return (
-    <>
-      {content}
-      <div className="gallery__page">
-        <div className="gallery__warp">
-          <div className="row">
-            {data.map((d, idx) => (
-              <ImageCard
-                key={d.id}
-                imgUrl={d.imgUrl}
-                idx={idx}
-                openImageViewer={openImageViewer}
-                width="300"
-              />
-            ))}
+    <div className="container">
+      <div className="row pt-4">
+        {galleries?.results?.map((gallery) => (
+          <div
+            className="col-lg-3 col-md-4 col-sm-6 gallery-item"
+            key={gallery.id}
+          >
+            <button onClick={() => navigate(`gallery/${gallery.id}/photos`)}>
+              {gallery.name}
+            </button>
           </div>
-        </div>
+        ))}
       </div>
-      {isViewerOpen && (
-        <ImageViewer
-          src={imageLinks}
-          currentIndex={currentImage}
-          onClose={closeImageViewer}
-          disableScroll={false}
-          backgroundStyle={{
-            backgroundColor: "rgba(0,0,0,0.9)",
-          }}
-          closeOnClickOutside={true}
-        />
-      )}
-    </>
+    </div>
   );
 }
 

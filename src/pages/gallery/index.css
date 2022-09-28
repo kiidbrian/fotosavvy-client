@@ -1,0 +1,20 @@
+.wrapper {
+  padding: 0 45px;
+  margin-bottom: 200px;
+}
+.gallery-item {
+  border: 1px solid black;
+  position: relative;
+  background-color: white;
+  width: 100%;
+  height: 350px;
+}
+
+.gallery-item button {
+  border: 1px solid black;
+  background-color: white;
+  position: absolute;
+  left: 40%;
+  top: 45%;
+}
+
