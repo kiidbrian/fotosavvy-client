@@ -7,7 +7,7 @@ export const api = createApi({
   reducerPath: "api",
   // All of our requests will have URLs starting with '/fakeApi'
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://stage-fotosavvy.herokuapp.com/",
+    baseUrl: process.env.REACT_APP_API,
     mode: "cors",
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the store, let's use that for authenticated requests
